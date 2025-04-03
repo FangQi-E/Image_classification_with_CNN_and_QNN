@@ -278,7 +278,9 @@ class quantum_circuit:
             rot = torch.kron(rot, torch.stack([torch.stack([cos, -sin]), torch.stack([sin, cos])])) 
                                                   
         #--------------------------------------------------------------------------
-        
+        if self.state_vector.device != rot.device:
+            self.state_vector = self.state_vector.to(rot.device)    
+    
         self.state_vector = torch.matmul(rot, self.state_vector)      # rotated state vector
         return self.state_vector     
     
